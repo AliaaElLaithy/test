@@ -17,21 +17,6 @@ Ultimate Options provides in-browser editing of WordPress various changes whethe
 
 == Changelog
 
-= 1.7.17 =
-* Fix : shipping by weight range structure and js in admin shipping methods according to new woocommerce structure
-= 1.7.16 =
-* update : change shipping-by-city option from adding-cities manually to multiple-select
-
-= 1.7.13 =
-* New : change shipping-by-city option from adding-cities manually to multiple-select
-
-= 1.7.12 =
-* New : Allow shop manager role to translate woocommerce-taxonomies
-
-= 1.7.11 =
-* New : Add Onyx Extra Fields Method Types
-* Fix : Add Woocommerce Checkout State Field Priority Check 
-
 = 1.7.10 =
 * fix : fix SAR currency symbol issue with add to cart
 

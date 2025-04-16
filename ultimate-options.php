@@ -3,7 +3,7 @@
     Plugin Name: Ultimate Options
     Plugin URI: http://ultimate-sa.com/
     Description: Ultimate Options.
-    Version: 1.7.17
+    Version: 1.7.10
     Author: Ultimate Solutions
     Author URI: http://ultimate-sa.com/
     License: GPL2 or later
@@ -15,7 +15,7 @@ if ( ! defined('ABSPATH') ) exit();
 //Plugin Version
 if ( ! defined( 'USO_VERSION' ) )
 
-    define( 'USO_VERSION' , '1.7.17' );
+    define( 'USO_VERSION' , '1.7.10' );
 
 
 

@@ -657,7 +657,6 @@ $uso_use_you_save = !empty($uso_settings['uso_use_you_save']) ? $uso_settings['u
 /* Extra Fields Variables */
 $uso_use_extra_fields = !empty($uso_settings['uso_use_extra_fields']) ? $uso_settings['uso_use_extra_fields'] : 'no';
 $uso_extra_fields_columns = !empty($uso_settings['uso_extra_fields_columns']) ? $uso_settings['uso_extra_fields_columns'] : 'one';
-$uso_extra_fields_display = !empty($uso_settings['uso_extra_fields_display']) ? $uso_settings['uso_extra_fields_display'] : '';
 $uso_extra_field_1_title_ar = ! empty( $uso_settings['uso_extra_field_1_title']['ar'] ) ? $uso_settings['uso_extra_field_1_title']['ar'] : '';
 $uso_extra_field_1_title_en = ! empty( $uso_settings['uso_extra_field_1_title']['en'] ) ? $uso_settings['uso_extra_field_1_title']['en'] : '';
 $uso_extra_field_2_title_ar = ! empty( $uso_settings['uso_extra_field_2_title']['ar'] ) ? $uso_settings['uso_extra_field_2_title']['ar'] : '';
@@ -1447,17 +1446,6 @@ $uso_tabs = array(
                             'two'       => prof_get_switch_language( 'عمودين'   , 'Two Columns' ),
                         ),
                         'default'   => $uso_extra_fields_columns,
-                        'tooltip'   => prof_get_switch_language('',''),
-                    ),
-                    'uso_extra_fields_display'  => array(
-                        'label'     => prof_get_switch_language('طريقة العرض','Display Method'),
-                        'type'      => 'select',
-                        'options'   => array(
-                            ''        => prof_get_switch_language('اختر طريقة العرض','Choose Display Method'),
-                            'table'     => prof_get_switch_language('جدول','Table'),
-                            'text'     => prof_get_switch_language('نص','Text'),
-                        ),
-                        'default'   => $uso_extra_fields_display,
                         'tooltip'   => prof_get_switch_language('',''),
                     ),
                     'uso_extra_field_1_title'  => array(
@@ -3548,8 +3536,6 @@ if (!function_exists('uso_shop_manager_theme_options_cap')) {
             $shop_manager->add_cap('edit_user');
             $shop_manager->add_cap('create_users');
             $shop_manager->add_cap('promote_users');
-            $shop_manager->add_cap('wpml_manage_taxonomy_translation');
-
             unset($submenu['options-general.php'][10]); // Removes 'General'
             unset($submenu['options-general.php'][15]); // Removes 'Writing'
             unset($submenu['options-general.php'][20]); // Removes 'Reading'
@@ -4659,7 +4645,7 @@ if ( ! function_exists('uso_required_optional_checkout_fields')) {
         }
 
         /* Checkout First Name Field*/
-        $uso_checkout_first_name_priority = $uso_settings['uso_checkout_first_name']['priority']; // Required / Optional First Name Field
+        $uso_checkout_first_name_priority = $uso_settings['uso_checkout_first_name']['priority']; // Required / Optional Company Field
 
         if ($uso_checkout_first_name_priority == 'yes') {
             $address_fields['first_name']['required'] = true;
@@ -4670,7 +4656,7 @@ if ( ! function_exists('uso_required_optional_checkout_fields')) {
         }
 
         /* Checkout Last Name Field */
-        $uso_checkout_last_name_priority = $uso_settings['uso_checkout_last_name']['priority']; // Required / Optional Last Name Field
+        $uso_checkout_last_name_priority = $uso_settings['uso_checkout_last_name']['priority']; // Required / Optional Company Field
 
         if ($uso_checkout_last_name_priority == 'yes') {
             $address_fields['last_name']['required'] = true;
@@ -4681,7 +4667,7 @@ if ( ! function_exists('uso_required_optional_checkout_fields')) {
         }
 
         /* Checkout Country Field */
-        $uso_checkout_country_priority = $uso_settings['uso_checkout_country']['priority']; // Required / Optional Country Field
+        $uso_checkout_country_priority = $uso_settings['uso_checkout_country']['priority']; // Required / Optional Company Field
 
         if ($uso_checkout_country_priority == 'yes') {
             $address_fields['country']['required'] = true;
@@ -4692,7 +4678,7 @@ if ( ! function_exists('uso_required_optional_checkout_fields')) {
         }
 
         /* Checkout City Field */
-        $uso_checkout_city_priority = $uso_settings['uso_checkout_city']['priority']; // Required / Optional City Field
+        $uso_checkout_city_priority = $uso_settings['uso_checkout_city']['priority']; // Required / Optional Company Field
 
         if ($uso_checkout_city_priority == 'yes') {
             $address_fields['city']['required'] = true;
@@ -4702,19 +4688,8 @@ if ( ! function_exists('uso_required_optional_checkout_fields')) {
             $address_fields['city']['required'] = false;
         }
 
-        /* Checkout State Field */
-        $uso_checkout_state_priority = $uso_settings['uso_checkout_state']['priority']; // Required / Optional State Field
-
-        if ($uso_checkout_state_priority == 'yes') {
-            $address_fields['state']['required'] = true;
-        }
-
-        if ($uso_checkout_state_priority == 'no') {
-            $address_fields['state']['required'] = false;
-        }
-
         /* Checkout Address 1 Field */
-        $uso_checkout_address_1_priority = $uso_settings['uso_checkout_address_1']['priority']; // Required / Optional Address 1 Field
+        $uso_checkout_address_1_priority = $uso_settings['uso_checkout_address_1']['priority']; // Required / Optional Company Field
 
         if ($uso_checkout_address_1_priority == 'yes') {
             $address_fields['address_1']['required'] = true;
@@ -4725,7 +4700,7 @@ if ( ! function_exists('uso_required_optional_checkout_fields')) {
         }
 
         /* Checkout Address 2 Field */
-        $uso_checkout_address_2_priority = $uso_settings['uso_checkout_address_2']['priority']; // Required / Optional Address 2 Field
+        $uso_checkout_address_2_priority = $uso_settings['uso_checkout_address_2']['priority']; // Required / Optional Company Field
 
         if ($uso_checkout_address_2_priority == 'yes') {
             $address_fields['address_2']['required'] = true;
@@ -5052,10 +5027,32 @@ if ($uso_use_extra_fields == 'yes') {
     function uso_onyx_custom_product_tab_content()
     {
         global $product, $uso_extra_field_1_title_ar, $uso_extra_field_1_title_en, $uso_extra_field_2_title_ar, $uso_extra_field_2_title_en, $uso_extra_field_3_title_ar, $uso_extra_field_3_title_en, $uso_extra_field_4_title_ar, $uso_extra_field_4_title_en, $uso_extra_field_5_title_ar, $uso_extra_field_5_title_en, $uso_extra_field_6_title_ar, $uso_extra_field_6_title_en, $uso_extra_field_7_title_ar, $uso_extra_field_7_title_en, $uso_extra_field_8_title_ar, $uso_extra_field_8_title_en, $uso_extra_field_9_title_ar, $uso_extra_field_9_title_en, $uso_extra_field_10_title_ar, $uso_extra_field_10_title_en,
-        $uso_extra_field_11_title_ar, $uso_extra_field_11_title_en, $uso_extra_field_12_title_ar, $uso_extra_field_12_title_en, $uso_extra_field_13_title_ar, $uso_extra_field_13_title_en, $uso_extra_field_14_title_ar, $uso_extra_field_14_title_en, $uso_extra_field_15_title_ar, $uso_extra_field_15_title_en, $uso_extra_field_16_title_ar, $uso_extra_field_16_title_en, $uso_extra_field_17_title_ar, $uso_extra_field_17_title_en, $uso_extra_field_18_title_ar, $uso_extra_field_18_title_en, $uso_extra_field_19_title_ar, $uso_extra_field_19_title_en, $uso_extra_field_20_title_ar, $uso_extra_field_20_title_en, $uso_extra_fields_columns, $uso_extra_fields_display;
+        $uso_extra_field_11_title_ar, $uso_extra_field_11_title_en, $uso_extra_field_12_title_ar, $uso_extra_field_12_title_en, $uso_extra_field_13_title_ar, $uso_extra_field_13_title_en, $uso_extra_field_14_title_ar, $uso_extra_field_14_title_en, $uso_extra_field_15_title_ar, $uso_extra_field_15_title_en, $uso_extra_field_16_title_ar, $uso_extra_field_16_title_en, $uso_extra_field_17_title_ar, $uso_extra_field_17_title_en, $uso_extra_field_18_title_ar, $uso_extra_field_18_title_en, $uso_extra_field_19_title_ar, $uso_extra_field_19_title_en, $uso_extra_field_20_title_ar, $uso_extra_field_20_title_en, $uso_extra_fields_columns;
 
-        if ($uso_extra_fields_columns == 'one' && $uso_extra_fields_display == 'table') {
-            ?>
+        if ($uso_extra_fields_columns == 'one') {
+        ?>
+        <div class="container">
+            <div class="row">
+                <?php
+                for ($i = 1; $i <= 20; $i++) {
+                    $field_title = is_rtl() ? ${"uso_extra_field_{$i}_title_ar"} : ${"uso_extra_field_{$i}_title_en"};
+                    $field_value = get_post_meta($product->get_id(), "Field{$i}", true);
+                    ?>
+                    <div class="col-12 mb-3">
+                        <table id="uso-extra-info" style="width:100%">
+                            <tr>
+                                <th><?php echo $field_title; ?></th>
+                                <td><?php echo $field_value; ?></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <?php
+                }
+                ?>
+            </div>
+        </div>
+
+        <?php } if ($uso_extra_fields_columns == 'two') { ?>
             <div class="container">
                 <div class="row">
                     <?php
@@ -5063,7 +5060,7 @@ if ($uso_use_extra_fields == 'yes') {
                         $field_title = is_rtl() ? ${"uso_extra_field_{$i}_title_ar"} : ${"uso_extra_field_{$i}_title_en"};
                         $field_value = get_post_meta($product->get_id(), "Field{$i}", true);
                         ?>
-                        <div class="col-12 mb-3">
+                        <div class="col-md-6 mb-3">
                             <table id="uso-extra-info" style="width:100%">
                                 <tr>
                                     <th><?php echo $field_title; ?></th>
@@ -5076,64 +5073,8 @@ if ($uso_use_extra_fields == 'yes') {
                     ?>
                 </div>
             </div>
-    
-            <?php } if ($uso_extra_fields_columns == 'two' && $uso_extra_fields_display == 'table') { ?>
-                <div class="container">
-                    <div class="row">
-                        <?php
-                        for ($i = 1; $i <= 20; $i++) {
-                            $field_title = is_rtl() ? ${"uso_extra_field_{$i}_title_ar"} : ${"uso_extra_field_{$i}_title_en"};
-                            $field_value = get_post_meta($product->get_id(), "Field{$i}", true);
-                            ?>
-                            <div class="col-md-6 mb-3">
-                                <table id="uso-extra-info" style="width:100%">
-                                    <tr>
-                                        <th><?php echo $field_title; ?></th>
-                                        <td><?php echo $field_value; ?></td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <?php
-                        }
-                        ?>
-                    </div>
-                </div>
-            <?php
-            } elseif ($uso_extra_fields_columns == 'one' && $uso_extra_fields_display == 'text') { ?>
-                <div class="container">
-                    <div class="row">
-                        <?php
-                        for ($i = 1; $i <= 20; $i++) {
-                            $field_title = is_rtl() ? ${"uso_extra_field_{$i}_title_ar"} : ${"uso_extra_field_{$i}_title_en"};
-                            $field_value = get_post_meta($product->get_id(), "Field{$i}", true);
-                            ?>
-                            <div class="col-md-12 mb-3">
-                                <p><?php echo $field_title . ' : '; ?><strong><?php echo $field_value; ?></strong></p>
-                            </div>
-                            <?php
-                        }
-                        ?>
-                     </div>
-                </div>
-            <?php	
-            } elseif ($uso_extra_fields_columns == 'two' && $uso_extra_fields_display == 'text') { ?>
-                <div class="container">
-                    <div class="row">
-                        <?php
-                        for ($i = 1; $i <= 20; $i++) {
-                            $field_title = is_rtl() ? ${"uso_extra_field_{$i}_title_ar"} : ${"uso_extra_field_{$i}_title_en"};
-                            $field_value = get_post_meta($product->get_id(), "Field{$i}", true);
-                            ?>
-                            <div class="col-md-6 mb-3">
-                                <p><?php echo $field_title . ' : '; ?><strong><?php echo $field_value; ?></strong></p>
-                            </div>
-                            <?php
-                        }
-                        ?>
-                     </div>
-                </div>
-            <?php	
-            }
+        <?php
+        }
     }
 }
 /************************************ Add Custom Onyx Fields Product Tab End *******************************************/
